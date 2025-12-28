@@ -16,7 +16,7 @@ ChronosAudioProcessorEditor::ChronosAudioProcessorEditor(ChronosAudioProcessor& 
     // Configure sliders as rotary
     auto setupRotarySlider = [this](juce::Slider& slider) {
         slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-        slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 16);
+        slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 80, 18);
         addAndMakeVisible(slider);
     };
 
@@ -107,7 +107,7 @@ ChronosAudioProcessorEditor::ChronosAudioProcessorEditor(ChronosAudioProcessor& 
     outputGainAttachment = std::make_unique<SliderAttachment>(apvts, Chronos::ParamIDs::outputGain, outputGainSlider);
     mixAttachment = std::make_unique<SliderAttachment>(apvts, Chronos::ParamIDs::mix, mixSlider);
 
-    setSize(700, 500);
+    setSize(800, 560);
     startTimerHz(30);
 }
 
@@ -166,68 +166,68 @@ void ChronosAudioProcessorEditor::resized()
     feedbackMeter.setBounds(visualizerArea.reduced(5, 10));
 
     // Main controls area
-    auto controlsArea = area.reduced(10);
+    auto controlsArea = area.reduced(15);
     int halfWidth = controlsArea.getWidth() / 2;
-    int knobSize = 70;
-    int rowHeight = 90;
+    int knobSize = 85;
+    int rowHeight = 100;
 
     // Left column: TIME + MODULATION
-    auto leftColumn = controlsArea.removeFromLeft(halfWidth - 5);
+    auto leftColumn = controlsArea.removeFromLeft(halfWidth - 10);
 
     // TIME section
-    timeLabel.setBounds(leftColumn.removeFromTop(20));
+    timeLabel.setBounds(leftColumn.removeFromTop(22));
     auto timeRow = leftColumn.removeFromTop(rowHeight);
 
     delayTimeSlider.setBounds(timeRow.removeFromLeft(knobSize));
-    tempoSyncButton.setBounds(timeRow.removeFromLeft(60).reduced(5, 25));
-    syncDivisionCombo.setBounds(timeRow.removeFromLeft(80).reduced(5, 30));
-    linkLRButton.setBounds(timeRow.removeFromLeft(50).reduced(5, 25));
+    tempoSyncButton.setBounds(timeRow.removeFromLeft(70).reduced(5, 30));
+    syncDivisionCombo.setBounds(timeRow.removeFromLeft(90).reduced(5, 35));
+    linkLRButton.setBounds(timeRow.removeFromLeft(60).reduced(5, 30));
 
-    leftColumn.removeFromTop(10);
+    leftColumn.removeFromTop(15);
 
     // MODULATION section
-    modulationLabel.setBounds(leftColumn.removeFromTop(20));
+    modulationLabel.setBounds(leftColumn.removeFromTop(22));
     auto modRow = leftColumn.removeFromTop(rowHeight);
 
     modRateSlider.setBounds(modRow.removeFromLeft(knobSize));
     modDepthSlider.setBounds(modRow.removeFromLeft(knobSize));
-    modShapeCombo.setBounds(modRow.removeFromLeft(80).reduced(5, 30));
-    modSyncButton.setBounds(modRow.removeFromLeft(50).reduced(5, 25));
+    modShapeCombo.setBounds(modRow.removeFromLeft(90).reduced(5, 35));
+    modSyncButton.setBounds(modRow.removeFromLeft(60).reduced(5, 30));
 
-    // Right column: FEEDBACK + OUTPUT
-    controlsArea.removeFromLeft(10);  // Gap
+    // Right column: FEEDBACK + STEREO
+    controlsArea.removeFromLeft(20);  // Gap
     auto rightColumn = controlsArea;
 
     // FEEDBACK section
-    feedbackLabel.setBounds(rightColumn.removeFromTop(20));
+    feedbackLabel.setBounds(rightColumn.removeFromTop(22));
     auto fbRow1 = rightColumn.removeFromTop(rowHeight);
 
     feedbackSlider.setBounds(fbRow1.removeFromLeft(knobSize));
     dampingSlider.setBounds(fbRow1.removeFromLeft(knobSize));
     driveSlider.setBounds(fbRow1.removeFromLeft(knobSize));
-    filterModeCombo.setBounds(fbRow1.removeFromLeft(60).reduced(5, 30));
+    filterModeCombo.setBounds(fbRow1.removeFromLeft(70).reduced(5, 35));
 
-    auto fbRow2 = rightColumn.removeFromTop(rowHeight - 20);
+    auto fbRow2 = rightColumn.removeFromTop(rowHeight - 10);
     filterFreqSlider.setBounds(fbRow2.removeFromLeft(knobSize));
     filterResSlider.setBounds(fbRow2.removeFromLeft(knobSize));
-    stereoModeCombo.setBounds(fbRow2.removeFromLeft(80).reduced(5, 25));
+    stereoModeCombo.setBounds(fbRow2.removeFromLeft(100).reduced(5, 30));
     widthSlider.setBounds(fbRow2.removeFromLeft(knobSize));
 
     // OUTPUT section (bottom)
-    auto bottomArea = getLocalBounds().removeFromBottom(100).reduced(10);
-    outputLabel.setBounds(bottomArea.removeFromTop(20));
+    auto bottomArea = getLocalBounds().removeFromBottom(110).reduced(15);
+    outputLabel.setBounds(bottomArea.removeFromTop(22));
 
     auto outputRow = bottomArea;
     inputGainSlider.setBounds(outputRow.removeFromLeft(knobSize));
     outputGainSlider.setBounds(outputRow.removeFromLeft(knobSize));
     mixSlider.setBounds(outputRow.removeFromLeft(knobSize));
 
-    outputRow.removeFromLeft(20);
-    duckingButton.setBounds(outputRow.removeFromLeft(60).reduced(5, 20));
+    outputRow.removeFromLeft(30);
+    duckingButton.setBounds(outputRow.removeFromLeft(70).reduced(5, 22));
     duckAmountSlider.setBounds(outputRow.removeFromLeft(knobSize));
 
-    outputRow.removeFromLeft(20);
-    freezeButton.setBounds(outputRow.removeFromLeft(80).reduced(5, 15));
+    outputRow.removeFromLeft(30);
+    freezeButton.setBounds(outputRow.removeFromLeft(90).reduced(5, 18));
 }
 
 void ChronosAudioProcessorEditor::timerCallback()
