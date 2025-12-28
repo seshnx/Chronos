@@ -1,0 +1,115 @@
+name: Build Chronos
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            cmake_generator: "Visual Studio 17 2022"
+            build_type: Release
+          - os: macos-latest
+            cmake_generator: "Xcode"
+            build_type: Release
+          - os: ubuntu-latest
+            cmake_generator: "Unix Makefiles"
+            build_type: Release
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install Linux Dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libasound2-dev \
+          libjack-jackd2-dev \
+          ladspa-sdk \
+          libfreetype6-dev \
+          libx11-dev \
+          libxcomposite-dev \
+          libxcursor-dev \
+          libxext-dev \
+          libxinerama-dev \
+          libxrandr-dev \
+          libxrender-dev \
+          libwebkit2gtk-4.0-dev \
+          libglu1-mesa-dev \
+          mesa-common-dev
+
+    - name: Configure CMake (Windows)
+      if: runner.os == 'Windows'
+      run: cmake -B build -G "${{ matrix.cmake_generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Configure CMake (macOS)
+      if: runner.os == 'macOS'
+      run: cmake -B build -G "${{ matrix.cmake_generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Configure CMake (Linux)
+      if: runner.os == 'Linux'
+      run: cmake -B build -G "${{ matrix.cmake_generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Build
+      run: cmake --build build --config ${{ matrix.build_type }} --parallel
+
+    - name: Upload VST3 (Windows)
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-VST3-Windows
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/VST3/*.vst3
+
+    - name: Upload Standalone (Windows)
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-Standalone-Windows
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/Standalone/*.exe
+
+    - name: Upload VST3 (macOS)
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-VST3-macOS
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/VST3/*.vst3
+
+    - name: Upload AU (macOS)
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-AU-macOS
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/AU/*.component
+
+    - name: Upload Standalone (macOS)
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-Standalone-macOS
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/Standalone/*.app
+
+    - name: Upload VST3 (Linux)
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-VST3-Linux
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/VST3/*.vst3
+
+    - name: Upload Standalone (Linux)
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Chronos-Standalone-Linux
+        path: build/Chronos_artefacts/${{ matrix.build_type }}/Standalone/*

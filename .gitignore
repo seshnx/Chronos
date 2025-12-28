@@ -1,0 +1,48 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# IDE files
+.idea/
+.vs/
+.vscode/
+*.xcodeproj/
+*.xcworkspace/
+*.sln
+*.vcxproj*
+
+# Compiled files
+*.o
+*.obj
+*.lib
+*.a
+*.dll
+*.dylib
+*.so
+*.exe
+
+# Plugin outputs
+*.vst3
+*.component
+*.aax
+
+# macOS
+.DS_Store
+*.dSYM/
+
+# Windows
+Thumbs.db
+*.user
+*.suo
+
+# JUCE generated
+JuceLibraryCode/
+
+# AAX SDK (don't commit)
+aax-sdk*/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
