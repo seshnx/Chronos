@@ -4,6 +4,8 @@
 
 Chronos is a feature-rich delay plugin designed for modern music production. With tempo-synced delays, LFO modulation, feedback filtering, and creative features like ducking and freeze, Chronos provides everything from subtle echoes to experimental soundscapes.
 
+**Part of the SeshNx Plugin Suite by Amalia Media LLC**
+
 ## Features
 
 ### Core Delay
@@ -101,10 +103,24 @@ cmake --build build --config Release
 | Output Gain | -24 to +12 dB | 0 dB | Output level |
 | Mix | 0-100% | 50% | Wet/dry blend |
 
-## License
-
-Copyright (c) 2024 Amalia Media LLC / SeshNx. All rights reserved.
-
 ## Support
 
-For bug reports and feature requests, please open an issue on GitHub.
+For technical support, bug reports, or feature requests, please contact the development team through official SeshNx channels.
+
+---
+
+## Version
+
+**v1.0.0**
+
+---
+
+## License
+
+Copyright (c) 2024 Amalia Media LLC. All rights reserved.
+
+Proprietary software - Distribution prohibited without explicit permission.
+
+---
+
+*Part of the [SeshNx Plugin Suite](https://seshnx.com) by Amalia Media LLC*
